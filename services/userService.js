@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/User.js');
 
 const JWT_SECRET = 'sfgjdfjdrtrdthdfg';
+
 async function register(username, password) {
 
     const existing = await User.findOne({ username }).collation({ locale: 'en', strength: 2 });
