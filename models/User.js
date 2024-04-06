@@ -4,12 +4,12 @@ const { options } = require('../controllers/homeController.js');
 
 
 const userSchema = new Schema({
-    username: { type: String, require: true, unique:true },
-    hashedPassword: { type: String, require: true },
+    username: { type: String, required: true, unique: true },
+    hashedPassword: { type: String, required: true },
 });
 
 userSchema.index({ username: 1 }, {
-    collaction: {
+    collation: {
         locale: 'en',
         strength: 2
     }
@@ -17,4 +17,4 @@ userSchema.index({ username: 1 }, {
 
 const User = model("User", userSchema);
 
-model.exports = User;
+module.exports = User;
