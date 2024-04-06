@@ -18,12 +18,22 @@ async function register(username, password) {
         hashedPassword
     });
     //TODO see asigments if registration creates user session
-    const token = createSession(user);
+    return createSession(user);
 
-    return token;
 }
 
-async function login() {
+async function login(username, password) {
+    const user = await User.findOne({ username }).collation({ locale: 'en', strength: 2 })
+    if (!user) {
+        throw new Error("Incorect user or password");
+    }
+    const hasMatch = await bcrypt.compare(password, user.hashedPassword);
+    if (hasMatch == false) {
+        throw new Error("Incorect user or password");
+
+    }
+
+    return createSession(user);
 
 }
 function createSession({ _id, username }) {
@@ -32,8 +42,8 @@ function createSession({ _id, username }) {
         username
     };
 
-    const token = jwt.sign(payload, JWT_SECRET);
-    return token;
+    return jwt.sign(payload, JWT_SECRET);
+
 };
 
 
